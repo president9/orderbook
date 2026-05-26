@@ -6,6 +6,11 @@ cmake -S . -B build
 cd build 
 make
 ```
+Executables will be in the build folder. Run benchmark using:
+```bash
+./benchmark
+```
+in the build folder.
 
 # TODO
 - Refactor to use cache efficient data structure
