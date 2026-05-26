@@ -12,3 +12,8 @@ make
 - Benchmarker
 - Trade/execution log
 - More
+
+# REQUIREMENTS
+- cmake
+- Conan 
+  
