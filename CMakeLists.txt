@@ -7,7 +7,6 @@ find_package(Boost QUIET)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS include/*.h)
-list(FILTER SOURCES EXCLUDE REGEX "main\\.cpp$")
 
 add_library(orderbook_core)
 target_sources(orderbook_core
@@ -31,15 +30,6 @@ endif()
 
 add_executable(orderbook src/main.cpp)
 target_link_libraries(orderbook PRIVATE orderbook_core)
-
-# add_executable(tests tests/tests.cpp)
-# target_link_libraries(tests PRIVATE orderbook_core)
-#
-# add_executable(boostTest tests/boostTests.cpp)
-# target_link_libraries(boostTest PRIVATE orderbook_core)
-#
-# add_executable(benchmark tests/benchmark.cpp)
-# target_link_libraries(benchmark PRIVATE orderbook_core)
 
 file(GLOB TEST_SOURCES tests/*.cpp)
 foreach(TEST_SOURCE ${TEST_SOURCES})
