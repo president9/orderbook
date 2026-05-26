@@ -15,5 +15,5 @@ make
 
 # REQUIREMENTS
 - cmake
-- Conan 
+- Conan (optional, required if you want the boost features to work)
   
