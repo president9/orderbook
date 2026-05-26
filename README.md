@@ -29,5 +29,6 @@ in the build folder.
 
 # REQUIREMENTS
 - cmake
-- Conan (optional, required if you want the boost features to work)
+- Conan (optional package manager, required if you want the boost features to work)
+- Boost
   
