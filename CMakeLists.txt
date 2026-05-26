@@ -21,7 +21,6 @@ target_sources(orderbook_core
             ${HEADERS}
 )
 target_include_directories(orderbook_core PUBLIC include)
-target_link_libraries(orderbook_core PUBLIC Boost::boost)
 target_compile_options(orderbook_core PRIVATE -Wall -Wextra -Werror)
 target_compile_features(orderbook_core PRIVATE cxx_std_23)
 
@@ -33,8 +32,18 @@ endif()
 add_executable(orderbook src/main.cpp)
 target_link_libraries(orderbook PRIVATE orderbook_core)
 
-add_executable(tests tests/tests.cpp)
-target_link_libraries(tests PRIVATE orderbook_core)
+# add_executable(tests tests/tests.cpp)
+# target_link_libraries(tests PRIVATE orderbook_core)
+#
+# add_executable(boostTest tests/boostTests.cpp)
+# target_link_libraries(boostTest PRIVATE orderbook_core)
+#
+# add_executable(benchmark tests/benchmark.cpp)
+# target_link_libraries(benchmark PRIVATE orderbook_core)
 
-add_executable(boostTest tests/boostTests.cpp)
-target_link_libraries(boostTest PRIVATE orderbook_core)
+file(GLOB TEST_SOURCES tests/*.cpp)
+foreach(TEST_SOURCE ${TEST_SOURCES})
+    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+    add_executable(${TEST_NAME} ${TEST_SOURCE})
+    target_link_libraries(${TEST_NAME} PRIVATE orderbook_core)
+endforeach()
