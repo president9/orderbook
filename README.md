@@ -13,8 +13,8 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
+- ~~Benchmarker~~
 - Refactor to use cache efficient data structure
-- Benchmarker
 - Trade/execution log
 - More
 
