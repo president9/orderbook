@@ -16,6 +16,7 @@ in the build folder.
 - ~~Benchmarker~~
 - Refactor to use cache efficient data structure
 - Trade/execution log
+- Add networked orders
 - More
 
 # REQUIREMENTS
