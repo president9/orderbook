@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 #include <Types.h>
 #include <vector>
@@ -9,7 +11,7 @@
 
 struct MessageHeader {
     uint8_t type;       // what kind of message
-    uint32_t length;    // isnt 32 bits too small since some structs are 32+ bits
+    uint32_t length;    
 };
 
 enum class MsgType : uint8_t {
@@ -72,6 +74,7 @@ struct orderRejectPayload {
 
 
 template<typename Payload>
+// this entire packet holds the header and data
 std::vector<uint8_t> serialise(MsgType type, const Payload& payload){
     MessageHeader header;
     header.type = static_cast<uint8_t>(type);
@@ -84,6 +87,8 @@ std::vector<uint8_t> serialise(MsgType type, const Payload& payload){
 }
 
 // consumes the serialised data
+// This one just decodes the shit made in above function. Not that it only 
+// memcpy's from beginning of nbuffer data but uses siz of message header
 MessageHeader deserialiseHeader(const std::vector<uint8_t>& buffer) {
     MessageHeader header;
     std::memcpy(&header, buffer.data(), sizeof(MessageHeader));
@@ -92,6 +97,8 @@ MessageHeader deserialiseHeader(const std::vector<uint8_t>& buffer) {
 
 
 template<typename Payload>
+// and this one offsets data.begin to message header then copies
+// same exact size for payload
 Payload deserialisePayload(const std::vector<uint8_t>& buffer){
     Payload payload;
     std::memcpy(&payload, buffer.data() + sizeof(MessageHeader), sizeof(Payload));
