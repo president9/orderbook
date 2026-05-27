@@ -1,6 +1,11 @@
 # Orderbook
 A limit order book supporting limit, market, IOC, and FOK orders with price-time priority matching. 
 
+# REQUIREMENTS
+- CMake 3.23+
+- Conan2 
+- Boost
+  
 How to use:
 
 
@@ -35,8 +40,3 @@ in the build folder.
 - Add networked orders
 - More
 
-# REQUIREMENTS
-- CMake 3.23+
-- Conan2 
-- Boost
-  
