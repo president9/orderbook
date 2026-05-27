@@ -1,0 +1,112 @@
+(Using M5 Macbook Air. The build was compiled in Release mode for this benchmark)
+
+NOTE: ARM timer resolution is ~1 ns. Sub-1 ns measurements are quantised. Any operation that takes less than 1ns can't be measured and will show as 0 ticks.
+============================================
+     ORDER BOOK BENCHMARK
+============================================
+Timer:      ARM64 (cntvct_el0)
+Counter freq: 1000.000 MHz  (1.0000 ticks/ns)
+Resolution: 1.00 ns/tick
+Iterations: 500000  warmup: 10000
+
+1. Insert (passive, 2M+ deep book, 1000 levels):
+  mean:      47.2 ticks  (    47 ns)
+  p50:       42.0 ticks  (    42 ns)
+  p95:       83.0 ticks  (    83 ns)
+  p99:       84.0 ticks  (    84 ns)
+  p99.9:   1791.0 ticks  (  1791 ns)
+  stdev:    176.2 ticks  (   176 ns)
+  min:   0.0  max: 23977.0 ticks
+  ops/s: 21185743
+   Book depth: 2510000 orders
+
+2. Insert (aggressive, 1-level match, 1M background):
+  mean:      47.8 ticks  (    48 ns)
+  p50:       42.0 ticks  (    42 ns)
+  p95:       83.0 ticks  (    83 ns)
+  p99:       84.0 ticks  (    84 ns)
+  p99.9:     84.0 ticks  (    84 ns)
+  stdev:    119.3 ticks  (   119 ns)
+  min:   0.0  max: 37184.0 ticks
+  ops/s: 20899476
+
+3. Insert (aggressive, 5-level sweep, 1M background):
+  mean:     273.1 ticks  (   273 ns)
+  p50:      250.0 ticks  (   250 ns)
+  p95:      333.0 ticks  (   333 ns)
+  p99:      334.0 ticks  (   334 ns)
+  p99.9:    375.0 ticks  (   375 ns)
+  stdev:    112.7 ticks  (   113 ns)
+  min:   208.0  max: 21892.0 ticks
+  ops/s: 3661620
+
+4. Cancel (random, deep book ~1M, 1000 levels):
+  mean:     970.4 ticks  (   970 ns)
+  p50:      959.0 ticks  (   959 ns)
+  p95:     1334.0 ticks  (  1334 ns)
+  p99:     1750.0 ticks  (  1750 ns)
+  p99.9:   2458.0 ticks  (  2458 ns)
+  stdev:    358.3 ticks  (   358 ns)
+  min:   125.0  max: 40202.0 ticks
+  ops/s: 1030514
+   Book size: 1000000 orders
+
+5. Modify (price change):
+  mean:     709.9 ticks  (   710 ns)
+  p50:      667.0 ticks  (   667 ns)
+  p95:     1125.0 ticks  (  1125 ns)
+  p99:     1375.0 ticks  (  1375 ns)
+  p99.9:   2042.0 ticks  (  2042 ns)
+  stdev:    330.5 ticks  (   331 ns)
+  min:   41.0  max: 67410.0 ticks
+  ops/s: 1408580
+
+6. Mixed workload (70/15/15):
+  mean:     139.0 ticks  (   139 ns)
+  p50:       84.0 ticks  (    84 ns)
+  p95:      334.0 ticks  (   334 ns)
+  p99:      625.0 ticks  (   625 ns)
+  p99.9:   1375.0 ticks  (  1375 ns)
+  stdev:  10977.7 ticks  ( 10978 ns)
+  min:   0.0  max: 7583752.0 ticks
+  ops/s: 7193050
+   Final book depth: 441791 orders
+
+7. Market order (eat 1000 orders across 10 levels):
+  mean:   41627.3 ticks  ( 41627 ns)
+  p50:    39600.0 ticks  ( 39600 ns)
+  p95:    47393.0 ticks  ( 47393 ns)
+  p99:    53076.0 ticks  ( 53076 ns)
+  p99.9:  95011.0 ticks  ( 95011 ns)
+  stdev:   4677.6 ticks  (  4678 ns)
+  min:   34018.0  max: 95011.0 ticks
+  ops/s: 24023
+   per fill: 41.6 ticks  (42 ns)
+
+8. FOK reject (volume scan, 1000 levels, 100k orders):
+  mean:    1875.1 ticks  (  1875 ns)
+  p50:     1875.0 ticks  (  1875 ns)
+  p95:     3250.0 ticks  (  3250 ns)
+  p99:     3375.0 ticks  (  3375 ns)
+  p99.9:   3417.0 ticks  (  3417 ns)
+  stdev:    953.7 ticks  (   954 ns)
+  min:   291.0  max: 83969.0 ticks
+  ops/s: 533316
+
+9. Cold book (500k inserts from empty, 1000 levels):
+  mean:  24523908.8 ticks  (24523909 ns)
+  p50:   24547358.0 ticks  (24547358 ns)
+  p95:   27192329.0 ticks  (27192329 ns)
+  p99:   28456341.0 ticks  (28456341 ns)
+  p99.9: 28456341.0 ticks  (28456341 ns)
+  stdev: 1198968.9 ticks  (1198969 ns)
+  min:   21873669.0  max: 28456341.0 ticks
+  ops/s: 41
+   per insert: 49.0 ticks  (49 ns)
+
+============================================
+Memory:
+  RSS start: 1328 KB
+  RSS end:   281392 KB
+  RSS delta: 280064 KB
+============================================
