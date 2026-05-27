@@ -6,9 +6,8 @@ A limit order book supporting limit, market, IOC, and FOK orders with price-time
 - Conan2 
 - Boost
   
-How to use:
-
-
+# How to use:
+To get started:
 ```bash 
 git clone https://github.com/president9/orderbook.git
 cd orderbook
