@@ -1,20 +1,23 @@
 # Orderbook
-Basic orderbook project to learn networking, dsa and low latency practices.
+A limit order book supporting limit, market, IOC, and FOK orders with price-time priority matching. 
+
 
 ```bash 
 git clone https://github.com/president9/orderbook.git
 cd orderbook
-conan install . --build=missing
-cmake -S . -B build
+conan install . --build=missing -s build_type=Debug
+cmake --preset conan-debug
+cmake --build build/Debug
 cd build 
-make
 ```
 
-If using conan:
+Then run what program you want:
 ```bash
-cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=build/Release/generators -DCMAKE_BUILD_TYPE=Release
+- /messagesTest
+- /benchmark
+- /orderbook
+- /tests
 ```
-
 
 Executables will be in the build folder. Run benchmark using:
 ```bash
@@ -23,7 +26,7 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
-- Serialisation tests
+- More serialisation tests
 - ~~Benchmarker~~
 - Refactor to use cache efficient data structure
 - Trade/execution log
@@ -31,7 +34,7 @@ in the build folder.
 - More
 
 # REQUIREMENTS
-- cmake
-- Conan 
+- CMake 3.23+
+- Conan2 
 - Boost
   
