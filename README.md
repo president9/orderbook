@@ -1,6 +1,8 @@
 # Orderbook
 A limit order book supporting limit, market, IOC, and FOK orders with price-time priority matching. 
 
+How to use:
+
 
 ```bash 
 git clone https://github.com/president9/orderbook.git
