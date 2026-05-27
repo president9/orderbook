@@ -1,4 +1,6 @@
 # Orderbook
+Basic orderbook project to learn networking, dsa and low latency practices.
+
 ```bash 
 git clone https://github.com/president9/orderbook.git
 cd orderbook
@@ -21,6 +23,7 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
+- Serialisation tests
 - ~~Benchmarker~~
 - Refactor to use cache efficient data structure
 - Trade/execution log
@@ -29,6 +32,6 @@ in the build folder.
 
 # REQUIREMENTS
 - cmake
-- Conan (optional package manager, required if you want the boost features to work)
+- Conan 
 - Boost
   

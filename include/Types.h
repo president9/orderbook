@@ -1,3 +1,5 @@
 #pragma once
-enum class PriceType {Bid, Ask};
-enum class OrderType { Limit, Market, IOC, FOK};
+#include <stdint.h>
+
+enum class PriceType : uint8_t {Bid = 1, Ask = 2};
+enum class OrderType : uint8_t { Limit = 1, Market = 2, IOC = 3, FOK = 4};
