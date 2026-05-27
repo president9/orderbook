@@ -225,7 +225,7 @@ struct Book{
 };
 
 
-std::ostream& operator<<(std::ostream& os, PriceType side) {
+inline std::ostream& operator<<(std::ostream& os, PriceType side) {
     switch (side) {
         case PriceType::Bid: return os << "Bid";
         case PriceType::Ask: return os << "Ask";
@@ -233,7 +233,7 @@ std::ostream& operator<<(std::ostream& os, PriceType side) {
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, OrderType type) {
+inline std::ostream& operator<<(std::ostream& os, OrderType type) {
     switch (type) {
         case OrderType::Limit:  return os << "Limit";
         case OrderType::Market: return os << "Market";
