@@ -105,3 +105,10 @@ Payload deserialisePayload(const std::vector<uint8_t>& buffer){
     return payload;
 }
 
+template<typename Payload>
+// This is stricty for the stuff AFTER the header
+Payload deserialiseData(uint8_t* data){
+    Payload payload;
+    std::memcpy(&payload, data, sizeof(Payload));
+    return payload;
+}

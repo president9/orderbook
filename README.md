@@ -32,7 +32,7 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
-- Add networking
+- Add networked upload of order
 - ~~Benchmarker~~ Benchmark with network Latency
 - ~~Serialisation tests~~ Orderbook tests using serialisation + network
 - Refactor to use cache efficient data structure

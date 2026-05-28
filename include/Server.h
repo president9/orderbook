@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <boost/asio.hpp>
-#include "Client.h"
+#include "Messages.h"
 #include <memory>
 
 using boost::asio::ip::tcp;
@@ -11,34 +11,62 @@ public:
     tcp::socket socket_;
     static constexpr int max_length = 1024;
     uint8_t data_[max_length];
+    MessageHeader header_;
 
     Session(tcp::socket socket) : socket_(std::move(socket)) { }
 
-    void start() { do_read(); }
-
-    void do_read() {
+    void start() { read_header(); }
+    
+    void read_header() {
         auto self(shared_from_this());
-        socket_.async_read_some(boost::asio::buffer(data_, max_length),
-            [this, self](boost::system::error_code ec, std::size_t length)
+        boost::asio::async_read(socket_, boost::asio::buffer(&header_, sizeof(MessageHeader)),
+            [this, self](boost::system::error_code ec, std::size_t )
             {
-              if (!ec)
-              {
-                do_write(length);
+              if (!ec) {
+                    std::cout << "Header: type=" << (int)header_.type << " length=" << header_.length << "\n";
+                    read_payload();
               }
             });
     }
 
-    void do_write(std::size_t length) {
-        auto self(shared_from_this());
-        boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
-            [this, self](boost::system::error_code ec, std::size_t /*length*/)
+    void read_payload(){
+        auto self(shared_from_this()); // make this a ptr so that this session stays alive until next async callback fires
+        boost::asio::async_read(socket_, boost::asio::buffer(data_, header_.length)
+                , [this, self](boost::system::error_code ec, std::size_t){
+                if(!ec){handle_message(); read_header(); } });}
+
+    void handle_message(){
+        switch(static_cast<MsgType>(header_.type)){
+            case MsgType::newOrder:
             {
-              if (!ec)
-              {
-                do_read();
-              }
-            });
+                auto payload = deserialiseData<newOrderPayload>(data_);
+                std::cout << "NewOrder: price=" << payload.price
+                << " qty=" << payload.quantity
+                << " side=" << (int)payload.priceType
+                << " type=" << (int)payload.orderType << "\n";
+            }
+                break;
+            case MsgType::modifyOrder:
+
+                break;
+            case MsgType::cancelOrder:
+
+                break;
+            case MsgType::userLogin:
+
+                break;
+            case MsgType::userLogout:
+
+                break;
+            case MsgType::orderAck:
+
+                break;
+            case MsgType::orderReject:
+
+                break;
+        }
     }
+
 };
 
 class Server{
