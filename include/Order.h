@@ -15,7 +15,7 @@ struct Order {
 
     PriceType side;
     OrderType type;
-    bool dontSkipIfFok = false;
+    bool dontSkipIfFok = false; // left alone for now. might give me an idea in the future so keeping it
 
     Order() = default;
 

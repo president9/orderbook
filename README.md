@@ -32,6 +32,7 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
+- Add const correctness to book operations
 - Add networked upload of orders (NEW ORDER DONE)
 - Refactor server.h creating order then pushing order so it pushes a function call instead
 - ~~Benchmarker~~ Benchmark with network Latency
