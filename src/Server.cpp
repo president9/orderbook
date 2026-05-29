@@ -1,20 +1,3 @@
-// #include "Book.h"
-//
-// int main() {
-//     Book book;
-//     Order order{PriceType::Ask, OrderType::Limit, 100, 1};
-//     Order order2{PriceType::Bid, OrderType::Limit, 90, 1};
-//     Order order3{PriceType::Ask, OrderType::Limit, 105, 1};
-//     book.insertOrder(order);
-//     book.insertOrder(order2);
-//     book.insertOrder(order3);
-//     book.parseBook();
-//
-//
-//
-//     return 0;
-// }
-
 #include "Server.h"
 #include "Book.h"
 #include <boost/asio.hpp>
@@ -29,6 +12,8 @@ int main(){
         Order order;
         while (!st.stop_requested()) {
             while (server.order_queue_.pop(order)) {
+                std::cout << "Executing order\n";
+            
                 server.book.insertOrder(order);
                 server.book.parseBook();
             }

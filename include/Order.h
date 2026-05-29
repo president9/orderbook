@@ -17,6 +17,8 @@ struct Order {
     OrderType type;
     bool dontSkipIfFok = false;
 
+    Order() = default;
+
     Order(PriceType side, int price, size_t quantity) :
         quantity(quantity),
         price(price),

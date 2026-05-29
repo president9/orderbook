@@ -4,12 +4,11 @@
 #include "Messages.h"
 #include <memory>
 #include <boost/lockfree/spsc_queue.hpp>
-#include "Book.h"
-#include <unordered_set>
+#include "Server.h"
+
 
 using boost::asio::ip::tcp;
 
-class Server;
 
 class Session : public std::enable_shared_from_this<Session>{
 public:
@@ -22,11 +21,23 @@ public:
     Session(tcp::socket socket, Server& server) : 
         socket_(std::move(socket)), server_(server) {}
 
-    void read_header();
-    void insert_order_to_server(Order& order);
-
     void start() { read_header(); }
     
+    void read_header() { // is there any point of making self when "this" gets 
+                         // passed as a pointer
+        auto self(shared_from_this());
+        boost::asio::async_read(socket_, boost::asio::buffer(&header_, sizeof(MessageHeader)),
+            [this, self](boost::system::error_code ec, std::size_t )
+            {
+              if (!ec) {
+                read_payload();
+              }
+              else{
+                server_.remove_session(self);
+              }
+            });
+    }
+
     void read_payload(){
         auto self(shared_from_this()); // make this a ptr so that this session stays alive until next async callback fires
         boost::asio::async_read(socket_, boost::asio::buffer(data_, header_.length)
@@ -42,8 +53,6 @@ public:
                 << " qty=" << payload.quantity
                 << " side=" << (int)payload.priceType
                 << " type=" << (int)payload.orderType << "\n";
-                auto order = Order(static_cast<PriceType>(payload.priceType), static_cast<OrderType>(payload.orderType), payload.price, payload.quantity);
-                insert_order_to_server(order);
             }
                 break;
             case MsgType::modifyOrder:
@@ -93,54 +102,3 @@ public:
     }
 
 };
-
-class Server{
-public: 
-    boost::asio::io_context& io_context_;
-    boost::asio::ip::tcp::acceptor acceptor_;
-    boost::lockfree::spsc_queue<Order, boost::lockfree::capacity<4096>> order_queue_;
-    std::unordered_set<std::shared_ptr<Session>> sessions_;
-    Book book;
-
-    Server(boost::asio::io_context& io_context, uint16_t port=9003)
-        : io_context_(io_context), acceptor_(io_context, tcp::endpoint(tcp::v4(), port))
-    {
-        std::cout << "SERVER STARTING\n";
-        start_accept();
-    }
-
-    void start_accept() {
-        acceptor_.async_accept(
-            [this](boost::system::error_code ec, tcp::socket socket) {
-                if (!ec) {
-                    auto session = std::make_shared<Session>(std::move(socket), *this);
-                    sessions_.insert(session);
-                    session->start();
-                }
-              start_accept();
-            });
-    }
-
-    inline void remove_session(const std::shared_ptr<Session>& session){
-        sessions_.erase(session);
-    }
-};
-
-
-inline void Session::read_header() { // is there any point of making self when "this" gets passed as a pointer
-    auto self(shared_from_this());
-    boost::asio::async_read(socket_, boost::asio::buffer(&header_, sizeof(MessageHeader)),
-        [this, self](boost::system::error_code ec, std::size_t ) // LAMBDA CAPTURES ARE CONST BY DEFAULT???
-        {
-          if (!ec) {
-            read_payload();
-          }
-          else{
-            server_.remove_session(self);
-          }
-        });
-}
-
-inline void Session::insert_order_to_server(Order& order){
-    server_.order_queue_.push(order);
-}

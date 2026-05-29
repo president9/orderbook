@@ -32,7 +32,8 @@ Executables will be in the build folder. Run benchmark using:
 in the build folder.
 
 # TODO
-- Add networked upload of order
+- Add networked upload of orders (NEW ORDER DONE)
+- Refactor server.h creating order then pushing order so it pushes a function call instead
 - ~~Benchmarker~~ Benchmark with network Latency
 - ~~Serialisation tests~~ Orderbook tests using serialisation + network
 - Refactor to use cache efficient data structure

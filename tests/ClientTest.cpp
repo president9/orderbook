@@ -19,12 +19,12 @@ int main() {
     }
 
 
-    {
-        auto payload = modifyOrderPayload{1, 30, 3};
-        auto buffer = serialise(MsgType::modifyOrder, payload);
-        client.send(buffer);
-        std::cout << "Sent modifyOrderPayload: id=1, price=30, quant=3\n";
-    }
+    // {
+    //     auto payload = modifyOrderPayload{1, 30, 3};
+    //     auto buffer = serialise(MsgType::modifyOrder, payload);
+    //     client.send(buffer);
+    //     std::cout << "Sent modifyOrderPayload: id=1, price=30, quant=3\n";
+    // }
 
     return 0;
 }
