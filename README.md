@@ -2,9 +2,10 @@
 A limit order book supporting limit, market, IOC, and FOK orders with price-time priority matching. 
 
 # REQUIREMENTS
+- C++20
 - CMake 3.23+
-- Conan2 
 - Boost
+- Conan2 
   
 # HOW TO USE
 To get started:
